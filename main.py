@@ -26,16 +26,18 @@ def obtener_usuario():
     return usuarios
 
 @app.delete("/usuarios/{id}")
-def eliminar_usuario(id):
+def eliminar_usuario(id: int):
     for index, usuario in enumerate(usuarios):
         if usuario.id == id:
             usuarios.pop(index)
             return "Usuario Eliminado"
         
 @app.patch("/usuarios/{id}")
-def actualizar_usuario(id, usuario_nuevo : ActualizarUsuario):
+def actualizar_usuario(id:int , usuario_nuevo : ActualizarUsuario):
     for usuario in usuarios:
         if usuario.id == id:
-            usuario.nombre = usuario_nuevo.nombre 
-            usuario.email = usuario_nuevo.email
+            if usuario_nuevo.nombre is not None:
+                usuario.nombre = usuario_nuevo.nombre 
+            if usuario_nuevo.email is not None:
+                usuario.email = usuario_nuevo.email
             return usuario

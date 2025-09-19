@@ -120,7 +120,7 @@ $ ssh -i "key.pem" user_os@ec2-ip.region.amazonaws.com
 
 ## Clone Repository and Set Up the API
 
-The process within the EC2 system is similarly as in the [configuration of the main.py file](#configuring-main-py-for-the-api)
+The process within the EC2 system is similarly as in the [configuration of the main.py file](#configuring-mainpy-for-the-api)
 ``` bash
 # This could be different depending on the OS
 $ sudo apt update -y && sudo apt upgrade -y 

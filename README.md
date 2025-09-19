@@ -14,7 +14,7 @@ For developing the basic API different tools and platforms are necessary to get 
 - Github
 - Amazon Web Services (AWS)
 
-*Package managers:*
+**Package managers:**
 - pip
 - npm
 
@@ -120,7 +120,7 @@ $ ssh -i "key.pem" user_os@ec2-ip.region.amazonaws.com
 
 ## Clone Repository and Set Up the API
 
-The process within the EC2 system is similarly as in the [configuration of the main.py file](Configuring main.py for the API).  
+The process within the EC2 system is similarly as in the [configuration of the main.py file](#configuring-main-py-for-the-api)
 ``` bash
 # This could be different depending on the OS
 $ sudo apt update -y && sudo apt upgrade -y 

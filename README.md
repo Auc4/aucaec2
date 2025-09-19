@@ -14,7 +14,7 @@ For developing the basic API different tools and platforms are necessary to get 
 - Github
 - Amazon Web Services (AWS)
 
-**Package managers:*
+*Package managers:*
 - pip
 - npm
 

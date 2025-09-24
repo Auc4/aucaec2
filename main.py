@@ -1,43 +1,22 @@
-from fastapi import FastAPI
-from sqlmodel import SQLModel, Field
-from typing import Optional
+from fastapi import Depends, FastAPI
+from typing import Annotated
+from sqlmodel import SQLModel, Session, create_engine
+
 
 app = FastAPI()
 
-usuarios = []
 
-class Usuario(SQLModel):
-    id: Optional[int] = Field(default=None)
-    nombre: str
-    email: str
+rds_connection_string = "postgresql://postgres:postgres@database-1.cubwsk6oid9n.us-east-1.rds.amazonaws.com:5432/test"
+engine = create_engine(rds_connection_string, echo=True)
 
-class ActualizarUsuario(SQLModel):
-    nombre: Optional[str] = None
-    email: Optional[str] = None
 
-@app.post("/usuarios")
-def crear_usuario(usuario: Usuario):
-    usuario.id = len(usuarios) + 1
-    usuarios.append(usuario)
-    return usuario
+@app.get("/health")
+def health_check():
+    try:
+        with Session(engine) as session:
+            result = session.exec(text("SELECT 1")).first()
+        return {"status": "ok", "db_response": result}
+    except Exception as e:
+        return {"status": "error", "detail": str(e)}
 
-@app.get("/usuarios")
-def obtener_usuario():
-    return usuarios
 
-@app.delete("/usuarios/{id}")
-def eliminar_usuario(id: int):
-    for index, usuario in enumerate(usuarios):
-        if usuario.id == id:
-            usuarios.pop(index)
-            return "Usuario Eliminado"
-        
-@app.patch("/usuarios/{id}")
-def actualizar_usuario(id:int , usuario_nuevo : ActualizarUsuario):
-    for usuario in usuarios:
-        if usuario.id == id:
-            if usuario_nuevo.nombre is not None:
-                usuario.nombre = usuario_nuevo.nombre 
-            if usuario_nuevo.email is not None:
-                usuario.email = usuario_nuevo.email
-            return usuario

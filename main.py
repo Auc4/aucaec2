@@ -1,22 +1,17 @@
 from fastapi import Depends, FastAPI
-from typing import Annotated
-from sqlmodel import SQLModel, Session, create_engine
+from sqlmodel import select
+from db import create_all_tables, SessionDep
 
 
-app = FastAPI()
+app = FastAPI(lifespan=create_all_tables)
 
+@app.get("/")
+def read_root():
+    return {"Hello":"World"}
 
-rds_connection_string = "postgresql://postgres:postgres@database-1.cubwsk6oid9n.us-east-1.rds.amazonaws.com:5432/test"
-engine = create_engine(rds_connection_string, echo=True)
-
-
-@app.get("/health")
-def health_check():
-    try:
-        with Session(engine) as session:
-            result = session.exec(text("SELECT 1")).first()
-        return {"status": "ok", "db_response": result}
-    except Exception as e:
-        return {"status": "error", "detail": str(e)}
+@app.get("/check-db")
+def check_db(session: SessionDep):
+    result = session.exec(select()).first()
+    return {"db_status": result}
 
 

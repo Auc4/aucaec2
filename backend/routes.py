@@ -1,24 +1,24 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session, select
-
+from models import Task, TaskCreate, TaskRead, TaskUpdate
 from db import SessionDep
-from models import Task
 
 tasks = APIRouter(prefix="/tasks", tags=["Tareas"])
 
-@tasks.post("/", responde_model=Task)
-def crear_tarea(tarea: Task, session: SessionDep): # type: ignore
-    session.add(tarea)
+@tasks.post("/", response_model=TaskRead)
+def crear_tarea(tarea: TaskCreate, session: SessionDep): # type: ignore
+    item = Task.from_orm(tarea)
+    session.add(item)
     session.commit()
-    session.refresh(tarea)
-    return tarea
+    session.refresh(item)
+    return item 
 
-@tasks.get("/", response_model=list[Task])
+@tasks.get("/", response_model=list[TaskRead])
 def obtener_tareas(session: SessionDep): #  type: ignore
-    session.exec(select(Task)).all()
+    return session.exec(select(Task)).all()
 
 
-@tasks.get("/{tarea_id}", response_model=Task)
+@tasks.get("/{tarea_id}", response_model=TaskRead)
 def obtener_tarea(tarea_id: int, session: SessionDep): # type: ignore
     tarea = session.get(Task, tarea_id)
     
@@ -27,8 +27,8 @@ def obtener_tarea(tarea_id: int, session: SessionDep): # type: ignore
     
     return tarea
 
-@tasks.put("/{tarea_id}", response_model=Task)
-def actualizar_tarea(tarea_id: int, campo: Task, session: SessionDep): # type: ignore
+@tasks.put("/{tarea_id}", response_model=TaskRead)
+def actualizar_tarea(tarea_id: int, campo: TaskUpdate, session: SessionDep): # type: ignore
     tarea = session.get(Task, tarea_id)
     if not tarea:
         raise HTTPException(status_code=404, detail="No existe esta tarea")
@@ -42,7 +42,7 @@ def actualizar_tarea(tarea_id: int, campo: Task, session: SessionDep): # type: i
     session.refresh(tarea)
     return tarea
 
-@tasks.delete("/{tarea_id}", response_model=Task)
+@tasks.delete("/{tarea_id}")
 def borrar_tarea(tarea_id : int, session: SessionDep): # type: ignore
     tarea = session.get(Task, tarea_id)
     if not tarea:

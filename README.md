@@ -1,4 +1,12 @@
 # Sebastián Aucapiña Workshop
+
+**Link to demostration video:**
+[Demostration Video](https://youtu.be/-djoqRgWCs4)
+
+--- 
+
+# Details of the workshop
+
 For the workshop the next AWS services were used:
 1. Amazon Elactic Compute Cloud (EC2)
 2. Amazon Relational Database Service (RDS)
@@ -7,13 +15,6 @@ For the workshop the next AWS services were used:
 In this context, S3 hosts a static web page made with [React](https://es.react.dev/).
 In addition, EC2 hosts a backend made with Python; using [FastAPI](https://fastapi.tiangolo.com/) and [SQLModel](https://sqlmodel.tiangolo.com/).
 Finally, S3 works with a [PostgreSQL](https://www.postgresql.org/) relational database.
-
-## EC2
-
-## RDS
-
-## S3
-
 
 ## Description of Elements presented in the video
 - **Amazon EC2:**
@@ -24,5 +25,13 @@ Finally, S3 works with a [PostgreSQL](https://www.postgresql.org/) relational da
 - **Amazon S3:**
   - ***S3 ARN:*** arn:aws:s3:::s3-auca-frontend
 
-**Link to demostration video:**
-[Demostration Video](https://youtu.be/-djoqRgWCs4)
+## EC2
+![Descripción EC2](media/ec2_properties.jpeg)
+
+## RDS
+![Descripción RDS](media/rds_properties.jpeg)
+
+## S3
+![Descripción S3](media/s3_properties.jpeg)
+
+
